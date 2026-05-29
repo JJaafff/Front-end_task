@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneakers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <button id="menuBtn" class="menu-btn">
+                <img src="assets/icon-menu.svg" alt="menu">
+            </button>
+
+            <div class="logo">
+                <img src="assets/logo.svg" alt="sneakers logo">
+            </div>
+
+            <nav class="nav-links">
+                <a href="#">Collections</a>
+                <a href="#">Men</a>
+                <a href="#">Women</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+
+            <div class="right-side">
+                <button id="cartBtn" class="cart-btn">
+                    <img src="assets/icon-cart.svg" alt="cart">
+                    <span id="cartNumber">0</span>
+                </button>
+
+                <img class="avatar" src="assets/avatar.png" alt="profile">
+            </div>
+
+            <div id="cartBox" class="cart-box">
+                <h3>Cart</h3>
+                <div id="cartContent" class="cart-content">
+                    <p>Your cart is empty.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="darkBg" class="dark-bg"></div>
+
+    <div id="mobileMenu" class="mobile-menu">
+        <button id="closeMenu">
+            <img src="assets/icon-close.svg" alt="close">
+        </button>
+        <a href="#">Collections</a>
+        <a href="#">Men</a>
+        <a href="#">Women</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <main class="product">
+        <section class="photos">
+            <div class="main-img-box">
+                <button id="prevBtn" class="arrow left">
+                    <img src="assets/icon-previous.svg" alt="previous">
+                </button>
+
+                <img id="mainImg" src="assets/product-1.jpg" alt="sneakers">
+
+                <button id="nextBtn" class="arrow right">
+                    <img src="assets/icon-next.svg" alt="next">
+                </button>
+            </div>
+
+            <div class="thumbs">
+                <img class="thumb active" src="assets/product-1-thumb.jpg" alt="thumbnail 1">
+                <img class="thumb" src="assets/product-2-thumb.jpg" alt="thumbnail 2">
+                <img class="thumb" src="assets/product-3-thumb.jpg" alt="thumbnail 3">
+                <img class="thumb" src="assets/product-4-thumb.jpg" alt="thumbnail 4">
+            </div>
+        </section>
+
+        <section class="info">
+            <h4>Sneaker Company</h4>
+            <h1>Fall Limited Edition Sneakers</h1>
+            <p>
+                These low-profile sneakers are your perfect casual wear companion.
+                Featuring a durable rubber outer sole, they will withstand everything
+                the weather can offer.
+            </p>
+
+            <div class="price">
+                <h2>$125.00 <span>50%</span></h2>
+                <del>$250.00</del>
+            </div>
+
+            <div class="buy">
+                <div class="quantity">
+                    <button id="minusBtn">
+                        <img src="assets/icon-minus.svg" alt="minus">
+                    </button>
+                    <strong id="quantity">1</strong>
+                    <button id="plusBtn">
+                        <img src="assets/icon-plus.svg" alt="plus">
+                    </button>
+                </div>
+
+                <button id="addBtn" class="add-btn">
+                    <img src="assets/icon-cart.svg" alt="">
+                    Add to cart
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button id="closeModal" class="close-modal">
+                <img src="assets/icon-close.svg" alt="close">
+            </button>
+
+            <div class="modal-img-box">
+                <button id="modalPrev" class="arrow left">
+                    <img src="assets/icon-previous.svg" alt="previous">
+                </button>
+                <img id="modalImg" src="assets/product-1.jpg" alt="sneakers big">
+                <button id="modalNext" class="arrow right">
+                    <img src="assets/icon-next.svg" alt="next">
+                </button>
+            </div>
+
+            <div class="modal-thumbs">
+                <img class="modal-thumb active" src="assets/product-1-thumb.jpg" alt="thumbnail 1">
+                <img class="modal-thumb" src="assets/product-2-thumb.jpg" alt="thumbnail 2">
+                <img class="modal-thumb" src="assets/product-3-thumb.jpg" alt="thumbnail 3">
+                <img class="modal-thumb" src="assets/product-4-thumb.jpg" alt="thumbnail 4">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
