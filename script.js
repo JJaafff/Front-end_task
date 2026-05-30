@@ -82,40 +82,74 @@ document.getElementById("minusBtn").onclick = function () {
         quantityText.innerText = quantity;
     }
 };
+var cartItems = []; 
 
 document.getElementById("addBtn").onclick = function () {
-    cartQuantity = cartQuantity + quantity;
+    var amount = Number(document.getElementById("quantity").innerText);
+    var cartFooter = document.getElementById("cartFooter");
+
+    var newItem = {
+        id: Date.now(),
+        name: "Fall Limited Edition Sneakers",
+        image: "assets/product-1-thumb.jpg",
+        price: price,
+        quantity: amount
+    };
+
+    cartItems.push(newItem);
+
+    // Amis gamo ra viwvale mere mixvdi ro ase martivad sheidzleba
+    document.getElementById("quantity").innerText = "1";
+
     updateCart();
 };
 
+
+
 function updateCart() {
-    if (cartQuantity === 0) {
+    if (cartItems.length === 0) {
         cartNumber.style.display = "none";
         cartContent.innerHTML = "<p>Your cart is empty.</p>";
-        return;
-    }
+        cartFooter.innerHTML = "";
+        return;     
+        } 
 
-    var total = price * cartQuantity;
 
     cartNumber.style.display = "inline-block";
-    cartNumber.innerText = cartQuantity;
+    cartNumber.innerText = cartItems.length;
 
-    cartContent.innerHTML =
-        '<div class="cart-item">' +
-            '<img src="assets/product-1-thumb.jpg" alt="product">' +
-            '<div>' +
-                '<p>Fall Limited Edition Sneakers</p>' +
-                '<p>$' + price.toFixed(2) + ' x ' + cartQuantity + ' <b>$' + total.toFixed(2) + '</b></p>' +
-            '</div>' +
-            '<button id="deleteBtn" class="remove-btn"><img src="assets/icon-delete.svg" alt="delete"></button>' +
-        '</div>' +
-        '<button class="checkout-btn">Checkout</button>';
+    var itemsHTML = "";
+    total = 0;
+    cartItems.forEach(function(item) {
+        total += item.price * item.quantity;
+        itemsHTML +=
+            '<div class="cart-item">' +
+                '<img id="cartItemImg" src="' + item.image + '" alt="product">' +
+                '<div>' +
+                    '<p>' + item.name + '</p>' +
+                    '<p>$' + item.price + ' X ' + item.quantity + '</p>' +
+                '</div>' +
 
-    document.getElementById("deleteBtn").onclick = function () {
-        cartQuantity = 0;
-        updateCart();
-    };
+                '<button class="remove-btn" data-id="' + item.id + '">' +
+                    '<img src="assets/icon-delete.svg" alt="delete">' +
+                '</button>' +
+            '</div>';
+    });
+    // Ase gaketeba mgoni arasworia magram chemi fantazia rasac gawvda...
+    cartContent.innerHTML = itemsHTML;
+    cartFooter.innerHTML ='<p id="totalText">Total: $' + total.toFixed(2) + '</p>' + '<button class="checkout-btn">Checkout</button>';
+
+    document.querySelectorAll(".remove-btn").forEach(function(btn) {
+        btn.onclick = function() {
+            var idToRemove = Number(this.dataset.id);
+            cartItems = cartItems.filter(function(item) {
+                return item.id !== idToRemove;
+            });
+            updateCart();
+        };
+    });
 }
+
 
 document.getElementById("cartBtn").onclick = function () {
     if (cartBox.style.display === "block") {
