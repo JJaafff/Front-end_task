@@ -1,39 +1,34 @@
-var bigImages = [
+const bigImages = [
     "assets/product-1.jpg",
     "assets/product-2.jpg",
     "assets/product-3.jpg",
     "assets/product-4.jpg"
 ];
 
-var currentImg = 0;
-var quantity = 1;
-var cartQuantity = 0;
-var price = 125;
+let currentImg = 0;
+let quantity = 1;
+let price = 125;
 
-var mainImg = document.getElementById("mainImg");
-var modalImg = document.getElementById("modalImg");
-var thumbs = document.getElementsByClassName("thumb");
-var modalThumbs = document.getElementsByClassName("modal-thumb");
+let mainImg = document.getElementById("mainImg");
+let modalImg = document.getElementById("modalImg");
+let thumbs = document.getElementsByClassName("thumb");
+let modalThumbs = document.getElementsByClassName("modal-thumb");
 
-var quantityText = document.getElementById("quantity");
-var cartNumber = document.getElementById("cartNumber");
-var cartBox = document.getElementById("cartBox");
-var cartContent = document.getElementById("cartContent");
+let quantityText = document.getElementById("quantity");
+let cartNumber = document.getElementById("cartNumber");
+let cartBox = document.getElementById("cartBox");
+let cartContent = document.getElementById("cartContent");
+let cartFooter = document.getElementById("cartFooter");
 
 function showImage(index) {
-    if (index < 0) {
-        index = bigImages.length - 1;
-    }
-
-    if (index >= bigImages.length) {
-        index = 0;
-    }
+    if (index < 0) index = bigImages.length - 1;
+    if (index >= bigImages.length) index = 0;
 
     currentImg = index;
     mainImg.src = bigImages[currentImg];
     modalImg.src = bigImages[currentImg];
 
-    for (var i = 0; i < thumbs.length; i++) {
+    for (let i = 0; i < thumbs.length; i++) {
         thumbs[i].classList.remove("active");
         modalThumbs[i].classList.remove("active");
     }
@@ -42,53 +37,53 @@ function showImage(index) {
     modalThumbs[currentImg].classList.add("active");
 }
 
-document.getElementById("nextBtn").onclick = function () {
+document.getElementById("nextBtn").addEventListener("click", function () {
     showImage(currentImg + 1);
-};
+});
 
-document.getElementById("prevBtn").onclick = function () {
+document.getElementById("prevBtn").addEventListener("click", function () {
     showImage(currentImg - 1);
-};
+});
 
-document.getElementById("modalNext").onclick = function () {
+document.getElementById("modalNext").addEventListener("click", function () {
     showImage(currentImg + 1);
-};
+});
 
-document.getElementById("modalPrev").onclick = function () {
+document.getElementById("modalPrev").addEventListener("click", function () {
     showImage(currentImg - 1);
-};
+});
 
-for (var i = 0; i < thumbs.length; i++) {
+for (let i = 0; i < thumbs.length; i++) {
     thumbs[i].setAttribute("data-number", i);
     modalThumbs[i].setAttribute("data-number", i);
 
-    thumbs[i].onclick = function () {
-        showImage(Number(this.getAttribute("data-number")));
-    };
+    thumbs[i].addEventListener("click", function () {
+        showImage(parseInt(this.getAttribute("data-number")));
+    });
 
-    modalThumbs[i].onclick = function () {
-        showImage(Number(this.getAttribute("data-number")));
-    };
+    modalThumbs[i].addEventListener("click", function () {
+        showImage(parseInt(this.getAttribute("data-number")));
+    });
 }
 
-document.getElementById("plusBtn").onclick = function () {
+document.getElementById("plusBtn").addEventListener("click", function () {
     quantity++;
     quantityText.innerText = quantity;
-};
+});
 
-document.getElementById("minusBtn").onclick = function () {
+document.getElementById("minusBtn").addEventListener("click", function () {
     if (quantity > 1) {
         quantity--;
         quantityText.innerText = quantity;
     }
-};
-var cartItems = []; 
+});
 
-document.getElementById("addBtn").onclick = function () {
-    var amount = Number(document.getElementById("quantity").innerText);
-    var cartFooter = document.getElementById("cartFooter");
+let cartItems = [];
 
-    var newItem = {
+document.getElementById("addBtn").addEventListener("click", function () {
+    let amount = parseInt(document.getElementById("quantity").innerText);
+
+    let newItem = {
         id: Date.now(),
         name: "Fall Limited Edition Sneakers",
         image: "assets/product-1-thumb.jpg",
@@ -97,101 +92,97 @@ document.getElementById("addBtn").onclick = function () {
     };
 
     cartItems.push(newItem);
-
-    // Amis gamo ra viwvale mere mixvdi ro ase martivad sheidzleba
     document.getElementById("quantity").innerText = "1";
-
+    quantity = 1;  // ← reset the JS variable too, not just the display
     updateCart();
-};
-
-
+});
 
 function updateCart() {
     if (cartItems.length === 0) {
         cartNumber.style.display = "none";
         cartContent.innerHTML = "<p>Your cart is empty.</p>";
         cartFooter.innerHTML = "";
-        return;     
-        } 
-
+        return;
+    }
 
     cartNumber.style.display = "inline-block";
     cartNumber.innerText = cartItems.length;
 
-    var itemsHTML = "";
-    total = 0;
-    cartItems.forEach(function(item) {
+    let itemsHTML = "";
+    let total = 0;  // ← added let, was an accidental global before
+
+    cartItems.forEach(function (item) {
         total += item.price * item.quantity;
         itemsHTML +=
             '<div class="cart-item">' +
-                '<img id="cartItemImg" src="' + item.image + '" alt="product">' +
+                '<img class="cart-item-img" src="' + item.image + '" alt="product">' +
                 '<div>' +
                     '<p>' + item.name + '</p>' +
                     '<p>$' + item.price + ' X ' + item.quantity + '</p>' +
                 '</div>' +
-
                 '<button class="remove-btn" data-id="' + item.id + '">' +
                     '<img src="assets/icon-delete.svg" alt="delete">' +
                 '</button>' +
             '</div>';
     });
-    // Ase gaketeba mgoni arasworia magram chemi fantazia rasac gawvda...
-    cartContent.innerHTML = itemsHTML;
-    cartFooter.innerHTML ='<p id="totalText">Total: $' + total.toFixed(2) + '</p>' + '<button class="checkout-btn">Checkout</button>';
 
-    document.querySelectorAll(".remove-btn").forEach(function(btn) {
-        btn.onclick = function() {
-            var idToRemove = Number(this.dataset.id);
-            cartItems = cartItems.filter(function(item) {
+    cartContent.innerHTML = itemsHTML;
+    cartFooter.innerHTML =
+        '<p id="totalText">Total: $' + total.toFixed(2) + '</p>' +
+        '<button class="checkout-btn">Checkout</button>';
+
+    document.querySelectorAll(".remove-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            let idToRemove = parseInt(this.dataset.id);
+            cartItems = cartItems.filter(function (item) {
                 return item.id !== idToRemove;
             });
             updateCart();
-        };
+        });
     });
 }
 
-
-document.getElementById("cartBtn").onclick = function () {
-    if (cartBox.style.display === "block") {
+document.getElementById("cartBtn").addEventListener("click", function () {
+    if (cartBox.style.display === "flex") {
         cartBox.style.display = "none";
     } else {
-        cartBox.style.display = "block";
+        cartBox.style.display = "flex";
     }
-};
+});
 
-document.getElementById("menuBtn").onclick = function () {
+document.getElementById("menuBtn").addEventListener("click", function () {
     document.getElementById("mobileMenu").style.left = "0";
     document.getElementById("darkBg").style.display = "block";
-};
+});
 
 function closeMenu() {
     document.getElementById("mobileMenu").style.left = "-250px";
     document.getElementById("darkBg").style.display = "none";
 }
 
-document.getElementById("closeMenu").onclick = closeMenu;
-document.getElementById("darkBg").onclick = closeMenu;
+document.getElementById("closeMenu").addEventListener("click", closeMenu);
+document.getElementById("darkBg").addEventListener("click", closeMenu);
 
-mainImg.onclick = function () {
+mainImg.addEventListener("click", function () {
     if (window.innerWidth > 800) {
         document.getElementById("modal").style.display = "block";
     }
-};
+});
 
-document.getElementById("closeModal").onclick = function () {
+document.getElementById("closeModal").addEventListener("click", function () {
     document.getElementById("modal").style.display = "none";
-};
+});
 
-document.getElementById("modal").onclick = function (event) {
+document.getElementById("modal").addEventListener("click", function (event) {
     if (event.target.id === "modal") {
         document.getElementById("modal").style.display = "none";
     }
-};
+});
 
-var links = document.getElementsByTagName("a");
+let links = document.getElementsByTagName("a");
 
-for (var j = 0; j < links.length; j++) {
-    links[j].onclick = function (event) {
+for (let j = 0; j < links.length; j++) {
+    links[j].addEventListener("click", function (event) {
         event.preventDefault();
-    };
+    });
 }
